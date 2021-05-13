@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <title>CoWin Watcher</title>
+</head>
+
+<body>
+    <div class="container mb-5">
+        <h1 class="display-1 mt-5">CoWin Watcher</h1>
+        <p>A tool to quickly navigate and continuously watch <a href="https://www.cowin.gov.in/home" target="_blank">cowin.gov.in</a> website
+            for vaccine availability</p>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <!-- <div class="mb-3">
+                    <label class="form-label">Search by</label>
+                    <div class="btn-group form-control-plaintext" role="group"
+                        aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="districtOrZip" id="radioZip" autocomplete="off"
+                            checked value="zip">
+                        <label class="btn btn-outline-primary" for="radioZip">Zip Code</label>
+
+                        <input type="radio" class="btn-check" name="districtOrZip" id="radioDistrict" autocomplete="off"
+                            value="district">
+                        <label class="btn btn-outline-primary" for="radioDistrict">District</label>
+                    </div>
+                </div> -->
+                <div class="mb-3 districtFields">
+                    <label class="form-label">State</label>
+                    <select class="form-control" id="stateSelector">
+                        <option value=""> -- select state -- </option>
+                    </select>
+                </div>
+                <div class="mb-3 districtFields">
+                    <label class="form-label">District</label>
+                    <select class="form-control" id="districtSelector">
+                        <option value=""> -- select district -- </option>
+                    </select>
+                </div>
+                <div class="mb-3 zipFields">
+                    <label class="form-label">Pincodes comma-separated values (optional)</label>
+                    <textarea class="form-control" id="zipCodeInput"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Age group</label>
+                    <div class="btn-group form-control-plaintext" role="group"
+                        aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="ageGroup" id="radioAgeAll" autocomplete="off"
+                            checked value="0">
+                        <label class="btn btn-outline-primary" for="radioAgeAll">Any</label>
+
+                        <input type="radio" class="btn-check" name="ageGroup" id="radioAge18yr" autocomplete="off"
+                            value="18">
+                        <label class="btn btn-outline-primary" for="radioAge18yr">18yr+</label>
+
+                        <input type="radio" class="btn-check" name="ageGroup" id="radioAge45yr" autocomplete="off"
+                            value="45">
+                        <label class="btn btn-outline-primary" for="radioAge45yr">45yr+</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Brand</label>
+                    <div class="btn-group form-control-plaintext" role="group"
+                        aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="brand" id="radioBrandAll" autocomplete="off" checked
+                            value="">
+                        <label class="btn btn-outline-primary" for="radioBrandAll">Any</label>
+
+                        <input type="radio" class="btn-check" name="brand" id="radioBrandCovishield" autocomplete="off"
+                            value="COVISHIELD">
+                        <label class="btn btn-outline-primary" for="radioBrandCovishield">COVISHIELD</label>
+
+                        <input type="radio" class="btn-check" name="brand" id="radioBrandCovaxin" autocomplete="off"
+                            value="COVAXIN">
+                        <label class="btn btn-outline-primary" for="radioBrandCovaxin">COVAXIN</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Cost</label>
+                    <div class="btn-group form-control-plaintext" role="group"
+                        aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="cost" id="radioCostAll" autocomplete="off" checked
+                            value="">
+                        <label class="btn btn-outline-primary" for="radioCostAll">Any</label>
+
+                        <input type="radio" class="btn-check" name="cost" id="radioCostFree" autocomplete="off"
+                            value="Free">
+                        <label class="btn btn-outline-primary" for="radioCostFree">Free</label>
+
+                        <input type="radio" class="btn-check" name="cost" id="radioCostPaid" autocomplete="off"
+                            value="Paid">
+                        <label class="btn btn-outline-primary" for="radioCostPaid">Paid</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-8">
+                <p>For fastest automatic mobile alerts, install the <a href="https://play.google.com/store/apps/details?id=com.llamalab.automate">Automate App</a> and run the flow "<b>CoWin Watcher India</b>" from community section</p>
+
+                <p>
+                    Vaccine availability 
+                    <small id="liveIndicator" class="badge rounded-pill bg-success">Live <span class="spinner-border spinner-border-sm" role="status" hidden id="loader"></span></small>
+                    <small id="offlineIndicator" class="badge rounded-pill bg-danger" hidden>Inactive</small>
+                    <br>
+                    <span id="summary"></span>
+                </p>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Vaccines</th>
+                                <th width="110">Date</th>
+                                <th width="300">Center</th>
+                                <th>Age</th>
+                                <th>Brand</th>
+                                <th>Free/Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody id="availableSlots" class="table-success"></tbody>
+                        <tbody id="bookedSlots"></tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <p>Developed by: <a href="https://www.linkedin.com/in/kanak-singhal-367634b4/" target="_blank">Kanak Singhal</a></p>
+
+    </div>
+    <script src='main.js'></script>
+</body>
+
+</html>
