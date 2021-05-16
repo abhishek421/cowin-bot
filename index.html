@@ -9,11 +9,14 @@
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
     <title>CoWin Bot</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+   
 </head>
 
 <body>
     <div class="container mb-5">
-        <h1 class="display-1 mt-5">CoWin Bot</h1>
+        <h1 class="display-1 mt-5">CoWin Watcher</h1>
         <p>A tool to quickly navigate and continuously watch <a href="https://www.cowin.gov.in/home" target="_blank">cowin.gov.in</a> website
             for vaccine availability</p>
 
@@ -26,7 +29,6 @@
                         <input type="radio" class="btn-check" name="districtOrZip" id="radioZip" autocomplete="off"
                             checked value="zip">
                         <label class="btn btn-outline-primary" for="radioZip">Zip Code</label>
-
                         <input type="radio" class="btn-check" name="districtOrZip" id="radioDistrict" autocomplete="off"
                             value="district">
                         <label class="btn btn-outline-primary" for="radioDistrict">District</label>
@@ -99,14 +101,28 @@
                         <label class="btn btn-outline-primary" for="radioCostPaid">Paid</label>
                     </div>
                 </div>
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="soundToggle">
+                        <label class="form-check-label" for="soundToggle">Toggle alert sound</label>
+                    </div>
 
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="backgroundToggle" disabled>
+                        <label class="form-check-label" for="backgroundToggle">Keep watching in background</label>
+                        <small class="text-muted"><br>By default we stop watching when you switch to a different window<br>NOTE: your device may suspend this in some time</small>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-8">
-                
+               
                 <p>
                     Vaccine availability 
                     <small id="liveIndicator" class="badge rounded-pill bg-success">Live <span class="spinner-border spinner-border-sm" role="status" hidden id="loader"></span></small>
-                    <small id="offlineIndicator" class="badge rounded-pill bg-danger" hidden>Inactive</small>
+                    <span id="offlineIndicator" hidden>
+                        <small class="badge rounded-pill bg-danger">Inactive</small>
+                        <small class="text-muted">Watcher stops when you switch to another window</small>
+                    </span>
                     <br>
                     <span id="summary"></span>
                 </p>
@@ -123,6 +139,9 @@
                                 <th>Free/Paid</th>
                             </tr>
                         </thead>
+                        <tbody id="infoSlots" class="table-info" hidden>
+                            <tr><td colspan="6">When slots are available, it will show up here on top...</td></tr>
+                        </tbody>
                         <tbody id="availableSlots" class="table-success"></tbody>
                         <tbody id="bookedSlots"></tbody>
                     </table>
@@ -130,7 +149,7 @@
 
             </div>
         </div>
-        <p>Developed by: <a href="https://instagram.com/abhishek.421/" target="_blank">Abhishek Choudhary</a></p>
+        <p>Developed by: Abhishek Choudhary</p>
 
     </div>
     <script src='main.js'></script>
